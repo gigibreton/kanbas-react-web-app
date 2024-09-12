@@ -279,7 +279,7 @@ export default function Lab1() {
             <h4>Anchor tag</h4>
             Please <a id="wd-lipsum" href="https://www.lipsum.com">click here</a> to get dummy text<br />
             You can view all of the course code <a id="wd-github"
-            href="https://github.com/jannunzi/kanbas-react-web-app-cs5610-fa24.git">here</a><br />
+                href="https://github.com/jannunzi/kanbas-react-web-app-cs5610-fa24.git">here</a><br />
         </div>
     );
 }
