@@ -7,8 +7,8 @@ import TOC from "./TOC";
 export default function Labs() {
     return(
         <div>
+            <h4>Brigette Breton | CS5610, Section 01</h4>
             <h1>Labs</h1>
-            <h4>Brigette Breton</h4>
             <TOC />
             <Routes>
                 <Route path="/" element={<Navigate to="Lab1" />} />
