@@ -5,7 +5,7 @@ import { Route, Routes, Navigate } from "react-router";
 import TOC from "./TOC";
 
 export default function Labs() {
-    return(
+    return (
         <div>
             <h4>Brigette Breton | CS5610, Section 01</h4>
             <h1>Labs</h1>
@@ -14,7 +14,7 @@ export default function Labs() {
                 <Route path="/" element={<Navigate to="Lab1" />} />
                 <Route path="Lab1" element={<Lab1 />} />
                 <Route path="Lab2" element={<Lab2 />} />
-                <Route path="Lab3" element={<Lab3 />} />
+                <Route path="Lab3/*" element={<Lab3 />} />
             </Routes>
         </div>
     );
