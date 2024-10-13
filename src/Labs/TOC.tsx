@@ -1,23 +1,8 @@
-// import { Link } from "react-router-dom";
-
-// export default function TOC() {
-//     return (
-//         <ul>
-//             <li><Link to="/Labs">Labs</Link></li>
-//             <li><Link to="/Labs/Lab1">Lab 1</Link></li>
-//             <li><Link to="/Labs/Lab2">Lab 2</Link></li>
-//             <li><Link to="/Labs/Lab3">Lab 3</Link></li>
-//             <li><Link to="/Kanbas">Kanbas</Link></li>
-//             <li><a href="https://github.com/gigibreton/kanbas-react-web-app.git" id="wd-github" target="_blank">Github Repository</a></li>
-//         </ul>
-//     );
-// }
-
 import { useLocation } from "react-router";
 export default function TOC() {
     const { pathname } = useLocation();
     return (
-        <ul className="nav nav-pills">
+        <ul className="nav nav-pills" id="wd-toc">
             <li className="nav-item">
                 <a id="wd-a" href="#/Labs" className="nav-link">
                     Labs
