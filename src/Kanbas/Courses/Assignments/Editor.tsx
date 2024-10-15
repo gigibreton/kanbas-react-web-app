@@ -125,4 +125,117 @@ export default function AssignmentEditor() {
     //                                 id="wd-due-date"
     //                                 className="form-control"
     //                                 defaultValue="2024-05-13"
-    //                     
+    //                             />
+    //                         </div>
+
+    //                         <div className="row mb-3">
+    //                             <div className="col-md-6">
+    //                                 <label htmlFor="wd-available-from" className="form-label">Available From</label>
+    //                                 <input
+    //                                     type="date"
+    //                                     id="wd-available-from"
+    //                                     className="form-control"
+    //                                     defaultValue="2024-05-06"
+    //                                 />
+    //                             </div>
+    //                             <div className="col-md-6">
+    //                                 <label htmlFor="wd-available-until" className="form-label">Until</label>
+    //                                 <input
+    //                                     type="date"
+    //                                     id="wd-available-until"
+    //                                     className="form-control"
+    //                                     defaultValue="2024-05-20"
+    //                                 />
+    //                             </div>
+    //                         </div>
+    //                     </div>
+    //                 </div>
+
+    //                 <div className="d-flex justify-content-between">
+    //                     <button id="wd-cancel" type="button" className="btn btn-secondary">Cancel</button>
+    //                     <button id="wd-save" type="button" className="btn btn-danger">Save</button>
+    //                 </div>
+    //             </form>
+    //         </div>
+    //     );
+    // }
+
+    return (
+        <div id="wd-assignments-editor" className="container">
+            <form id="wd-assignment-editor">
+                <div className="mb-3">
+                    <label htmlFor="wd-name" className="form-label">Assignment Name</label>
+                    <input
+                        id="wd-name"
+                        type="text"
+                        className="form-control"
+                        defaultValue={assignment.title}
+                    />
+                </div>
+
+                <div className="mb-3">
+                    <label htmlFor="wd-description" className="form-label">Description</label>
+                    <textarea
+                        id="wd-description"
+                        className="form-control"
+                        cols={50}
+                        rows={15}
+                        defaultValue={assignment.description}
+                    />
+                </div>
+
+                <div className="mb-3">
+                    <label htmlFor="wd-points" className="form-label">Points</label>
+                    <input
+                        id="wd-points"
+                        type="number"
+                        className="form-control"
+                        defaultValue={assignment.points}
+                    />
+                </div>
+
+                {/* Other form fields such as Assignment Group, Display Grade As, Submission Type */}
+                <div className="mb-3">
+                    <label htmlFor="wd-due-date" className="form-label">Due Date</label>
+                    <input
+                        type="date"
+                        id="wd-due-date"
+                        className="form-control"
+                        defaultValue={assignment.dueDate}
+                    />
+                </div>
+
+                <div className="row mb-3">
+                    <div className="col-md-6">
+                        <label htmlFor="wd-available-from" className="form-label">Available From</label>
+                        <input
+                            type="date"
+                            id="wd-available-from"
+                            className="form-control"
+                            defaultValue={assignment.availableDate}
+                        />
+                    </div>
+                    <div className="col-md-6">
+                        <label htmlFor="wd-available-until" className="form-label">Until</label>
+                        <input
+                            type="date"
+                            id="wd-available-until"
+                            className="form-control"
+                            defaultValue="2024-05-20"
+                        />
+                    </div>
+                </div>
+
+                <div className="d-flex justify-content-between">
+                    {/* Cancel and Save buttons, which link back to the assignments list */}
+                    <Link to={`/Kanbas/Courses/${cid}/Assignments`} id="wd-cancel" className="btn btn-secondary">
+                        Cancel
+                    </Link>
+                    <Link to={`/Kanbas/Courses/${cid}/Assignments`} id="wd-save" className="btn btn-danger">
+                        Save
+                    </Link>
+                </div>
+            </form>
+        </div>
+    );
+}
