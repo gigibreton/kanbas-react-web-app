@@ -106,4 +106,6 @@ export default function PeopleTable() {
                         ))}
                 </tbody>
             </table>
-    
+        </div>
+    );
+}
