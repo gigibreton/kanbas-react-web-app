@@ -137,8 +137,8 @@ export default function Assignments() {
                                         </Link>
                                         <small className="d-block">
                                             <span style={{ color: 'red' }}>Multiple Modules</span> |
-                                            <b> Not available until</b> May 6 at 12:00am |
-                                            <br /><b>Due</b> May 13 at 11:59pm | 100 pts
+                                            <b> Not available until</b> {assignment.availableFromText} |
+                                            <br /><b>Due</b> {assignment.dueDateText} | {assignment.points} pts
                                         </small>
                                     </div>
                                 </div>

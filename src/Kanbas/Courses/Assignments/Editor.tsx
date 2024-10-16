@@ -9,7 +9,7 @@ export default function AssignmentEditor() {
 
     useEffect(() => {
         console.log(db.assignments);
-        // Find the assignment based on courseId and assignmentId
+        // Find the assignment based on cid and aid
         const foundAssignment = db.assignments.find(
             (assignment) => assignment.course === cid && assignment._id === aid
         );
@@ -194,40 +194,100 @@ export default function AssignmentEditor() {
                     />
                 </div>
 
-                {/* Other form fields such as Assignment Group, Display Grade As, Submission Type */}
                 <div className="mb-3">
-                    <label htmlFor="wd-due-date" className="form-label">Due Date</label>
-                    <input
-                        type="date"
-                        id="wd-due-date"
-                        className="form-control"
-                        defaultValue={assignment.dueDate}
-                    />
+                    <label htmlFor="wd-group" className="form-label">Assignment Group</label>
+                    <select id="wd-group" className="form-select">
+                        <option value="ASSIGNMENTS">ASSIGNMENTS</option>
+                        <option value="QUIZZES">QUIZZES</option>
+                    </select>
                 </div>
 
-                <div className="row mb-3">
-                    <div className="col-md-6">
-                        <label htmlFor="wd-available-from" className="form-label">Available From</label>
-                        <input
-                            type="date"
-                            id="wd-available-from"
-                            className="form-control"
-                            defaultValue={assignment.availableDate}
-                        />
+                <div className="mb-3">
+                    <label htmlFor="wd-display-grade-as" className="form-label">Display Grade As</label>
+                    <select id="wd-display-grade-as" className="form-select">
+                        <option value="ASSIGNMENTS">Percentage</option>
+                        <option value="QUIZZES">Number</option>
+                    </select>
+                </div>
+
+                <div className="mb-3">
+                    <label htmlFor="wd-submission-type" className="form-label">Submission Type</label>
+                    <div className="border rounded p-3 bg-transparent">
+                        <select id="wd-submission-type" className="form-select">
+                            <option value="ONLINE">Online</option>
+                            <option value="IN-PERSON">In Person</option>
+                        </select>
+
+                        <fieldset className="mb-3">
+                            <legend className="col-form-label">Online Entry Options</legend>
+                            <div className="form-check">
+                                <input type="checkbox" className="form-check-input" id="wd-text-entry" />
+                                <label className="form-check-label" htmlFor="wd-text-entry">Text Entry</label>
+                            </div>
+                            <div className="form-check">
+                                <input type="checkbox" className="form-check-input" id="wd-website-url" />
+                                <label className="form-check-label" htmlFor="wd-website-url">Website URL</label>
+                            </div>
+                            <div className="form-check">
+                                <input type="checkbox" className="form-check-input" id="wd-media-recordings" />
+                                <label className="form-check-label" htmlFor="wd-media-recordings">Media Recordings</label>
+                            </div>
+                            <div className="form-check">
+                                <input type="checkbox" className="form-check-input" id="wd-student-annotation" />
+                                <label className="form-check-label" htmlFor="wd-student-annotation">Student Annotation</label>
+                            </div>
+                            <div className="form-check">
+                                <input type="checkbox" className="form-check-input" id="wd-file-upload" />
+                                <label className="form-check-label" htmlFor="wd-file-upload">File Uploads</label>
+                            </div>
+                        </fieldset>
                     </div>
-                    <div className="col-md-6">
-                        <label htmlFor="wd-available-until" className="form-label">Until</label>
+                </div>
+
+                <div className="mb-3">
+                    <label htmlFor="wd-submission-type" className="form-label">Assign</label>
+                    <div className="border rounded p-3 bg-transparent">
+                        <label htmlFor="wd-assign-to" className="form-label"><h6>Assigned to</h6></label>
                         <input
-                            type="date"
-                            id="wd-available-until"
+                            id="wd-assign-to"
                             className="form-control"
-                            defaultValue="2024-05-20"
+                            defaultValue="Everyone"
                         />
+
+                        <div className="mb-3">
+                            <label htmlFor="wd-due-date" className="form-label">Due Date</label>
+                            <input
+                                type="date"
+                                id="wd-due-date"
+                                className="form-control"
+                                defaultValue={assignment.dueDate}
+                            />
+                        </div>
+
+                        <div className="row mb-3">
+                            <div className="col-md-6">
+                                <label htmlFor="wd-available-from" className="form-label">Available From</label>
+                                <input
+                                    type="date"
+                                    id="wd-available-from"
+                                    className="form-control"
+                                    defaultValue={assignment.availableDate}
+                                />
+                            </div>
+                            <div className="col-md-6">
+                                <label htmlFor="wd-available-until" className="form-label">Until</label>
+                                <input
+                                    type="date"
+                                    id="wd-available-until"
+                                    className="form-control"
+                                    defaultValue={assignment.availableUntil}
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div className="d-flex justify-content-between">
-                    {/* Cancel and Save buttons, which link back to the assignments list */}
                     <Link to={`/Kanbas/Courses/${cid}/Assignments`} id="wd-cancel" className="btn btn-secondary">
                         Cancel
                     </Link>
