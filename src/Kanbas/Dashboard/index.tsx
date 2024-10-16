@@ -16,11 +16,9 @@ export default function Dashboard() {
                                     <img src={course.img} width="100%" height={160} />
                                     <div className="card-body">
                                         <h6 className="wd-dashboard-course-title card-title">
-                                            {/* CS1234 12631 React JS SEC 01 Fall 2024 [BOS-1-TR] */}
                                             {course.name}
                                         </h6>
                                         <p className="wd-dashboard-course-title card-text overflow-y-hidden" style={{ maxHeight: 100 }}>
-                                            {/* CS1234.12631.202410 */}
                                             {course.description}
                                         </p>
                                         <small><p className="wd-dashboard-course-title card-term-text">
