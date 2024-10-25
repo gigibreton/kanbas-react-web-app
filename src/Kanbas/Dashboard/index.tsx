@@ -80,4 +80,17 @@ export default function Dashboard() {
                                             onClick={(event) => {
                                                 event.preventDefault();
                                                 setCourse(course);
-                      
+                                            }}
+                                            className="btn btn-warning me-2 float-end" >
+                                            Edit
+                                        </button>
+                                    </div>
+                                </Link>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    )
+}
