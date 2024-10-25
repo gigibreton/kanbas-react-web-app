@@ -1,13 +1,19 @@
-export default function TodoItem({ todo, deleteTodo, setTodo }: { // breaks out todo item
-    todo: { id: string; title: string }; // todo to render
-    deleteTodo: (id: string) => void; // event handler to remove todo
-    setTodo: (todo: { id: string; title: string }) => void; // event handler to select todo
-}) {
+import React from "react";
+import { useDispatch } from "react-redux";
+import { deleteTodo, setTodo } from "./todosReducer";
+type Todo = {
+    id: string;
+    title: string;
+};
+export default function TodoItem({ todo }: { todo: Todo }) {
+    const dispatch = useDispatch();
     return (
         <li key={todo.id} className="list-group-item">
-            <button onClick={() => deleteTodo(todo.id)} // invoke delete todo with ID
+            <button onClick={() => dispatch(deleteTodo(todo.id))}
                 id="wd-delete-todo-click"> Delete </button>
-            <button onClick={() => setTodo(todo)} // invoke select todo
+            <button onClick={() => dispatch(setTodo(todo))}
                 id="wd-set-todo-click"> Edit </button>
-            {todo.title}    </li>); // render todo's title
-} 
+            {todo.title}
+        </li>
+    );
+}
