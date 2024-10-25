@@ -13,7 +13,7 @@ export default function TodoForm( // remove dependency from
             <button onClick={() => dispatch(updateTodo(todo))} // with dispatch
                 id="wd-update-todo-click"> Update </button>
             <input // wrap reducer functions
-                defaultValue={todo.title} // with dispatch
+                value={todo.title} // with dispatch
                 onChange={(e) => dispatch(setTodo({ ...todo, title: e.target.value }))} />
         </li>
     );
