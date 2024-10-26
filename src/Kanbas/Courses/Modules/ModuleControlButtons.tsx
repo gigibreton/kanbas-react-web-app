@@ -11,4 +11,10 @@ export default function LessonControlButtons(
     return (
         <div className="float-end">
             <FaPencil onClick={() => editModule(moduleId)} className="text-primary me-3" />
-            <FaTrash
+            <FaTrash className="text-danger me-2 mb-1" onClick={() => deleteModule(moduleId)} />
+            <GreenCheckmark />
+            <BsPlus />
+            <IoEllipsisVertical className="fs-4" />
+        </div>
+    );
+}
