@@ -4,14 +4,13 @@ import IndividualAssignmentControlButtons from "./IndividualAssignmentControlBut
 import AssignmentControls from "./AssignmentControls";
 import GreenClipboard from "./GreenClipboard";
 import { useParams } from "react-router";
-import * as db from "../../Database";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function Assignments() {
     const { cid } = useParams();
-    const assignments = db.assignments;
-    const filteredAssignments = assignments.filter(assignment => assignment.course === cid);
+    const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+    const filteredAssignments = assignments.filter((assignment: any) => assignment.course === cid);
     const { currentUser } = useSelector((state: any) => state.accountReducer);
 
     return (
@@ -40,7 +39,7 @@ export default function Assignments() {
                     </div>
 
                     <ul className="wd-lesson list-group rounded-0">
-                        {filteredAssignments.map(assignment => (
+                        {filteredAssignments.map((assignment: any) => (
                             <li key={assignment._id} className="wd-lesson list-group-item p-3 d-flex justify-content-between align-items-center">
                                 <div className="d-flex align-items-center">
                                     <BsGripVertical className="me-2 fs-3" />
