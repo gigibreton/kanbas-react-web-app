@@ -10,7 +10,7 @@ export default function ProtectedRoute({ children }: { children?: any }) {
         return <Navigate to="/Kanbas/Account/Signin" />;
     }
 
-    if (cid) {
+    if (cid && currentUser.role === 'STUDENT') {
         const isEnrolledInCourse = enrollments.some(
             (enrollment: any) => enrollment.user === currentUser._id && enrollment.course === cid
         );
