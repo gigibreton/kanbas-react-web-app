@@ -4,7 +4,6 @@ import { assignments } from "../../Database";
 const initialState = {
     assignments: assignments,
 };
-
 const assignmentsSlice = createSlice({
     name: "assignments",
     initialState,

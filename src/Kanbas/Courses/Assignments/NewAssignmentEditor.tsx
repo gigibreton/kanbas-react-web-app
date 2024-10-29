@@ -1,31 +1,56 @@
-import { useEffect, useState, FormEvent } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateAssignment } from "../../Courses/Assignments/reducer";
+import { addAssignment } from "./reducer";
 
-export default function AssignmentEditor() {
-    const { cid, aid } = useParams();
-    const dispatch = useDispatch();
+export default function NewAssignmentEditor() {
+    const { cid } = useParams();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const { assignments } = useSelector((state: any) => state.assignmentsReducer);
-    const [assignment, setAssignment] = useState<null | typeof assignments[0]>(null);
 
-    useEffect(() => {
-        console.log(assignments);
-        const foundAssignment = assignments.find(
-            (assignment: any) => assignment.course === cid && assignment._id === aid
-        );
-        setAssignment(foundAssignment || null);
-    }, [cid, aid]);
+    const [assignment, setAssignment] = useState({
+        course: cid,
+        title: '',
+        description: '',
+        points: 100,
+        group: '',
+        displayGradeAs: '',
+        submissionType: '',
+        submissionOptions: {
+            textEntry: false,
+            websiteUrl: false,
+            mediaRecordings: false,
+            studentAnnotation: false,
+            fileUpload: false,
+        },
+        assignTo: '',
+        dueDate: '',
+        availableDate: '',
+        availableUntil: '',
+    });
+
+    function getNextAssignmentId(assignments: any) {
+        const maxId = assignments.reduce((max: any, assignment: any) => {
+            const numericPart = parseInt(assignment._id.slice(1), 10);
+            return Math.max(max, numericPart);
+        }, 0);
+
+        return `A${(maxId + 1).toString().padStart(3, '0')}`;
+    }
 
     const handleChange = (e: any) => {
-        const value = e.target.value;
-        setAssignment({ ...assignment, [e.target.name]: value });
+        const { name, value } = e.target;
+        setAssignment(prevState => ({
+            ...prevState,
+            [name]: value,
+        }));
     };
 
     const handleCheckboxChange = (e: any) => {
         const { name, checked } = e.target;
-        setAssignment((prevState: any) => ({
+        setAssignment(prevState => ({
             ...prevState,
             submissionOptions: {
                 ...prevState.submissionOptions,
@@ -35,44 +60,16 @@ export default function AssignmentEditor() {
     };
 
     const handleSave = () => {
-        if (!assignment) {
-            console.error("Assignment data is missing.");
-            return;
-        }
-
-        const updatedAssignment = {
-            ...assignment,
-            title: (document.getElementById("wd-name") as HTMLInputElement)?.value || assignment.title,
-            description: (document.getElementById("wd-description") as HTMLInputElement)?.value || assignment.description,
-            points: Number((document.getElementById("wd-points") as HTMLInputElement)?.value) || assignment.points,
-            group: (document.getElementById("wd-group") as HTMLInputElement)?.value || assignment.group,
-            displayGradeAs: (document.getElementById("wd-display-grade-as") as HTMLInputElement)?.value || assignment.displayGradeAs,
-            submissionType: (document.getElementById("wd-submission-type") as HTMLInputElement)?.value || assignment.submissionType,
-            submissionOptions: {
-                textEntry: (document.getElementById("wd-text-entry") as HTMLInputElement)?.checked ?? assignment.submissionOptions.textEntry,
-                websiteUrl: (document.getElementById("wd-website-url") as HTMLInputElement)?.checked ?? assignment.submissionOptions.websiteUrl,
-                mediaRecordings: (document.getElementById("wd-media-recordings") as HTMLInputElement)?.checked ?? assignment.submissionOptions.mediaRecordings,
-                studentAnnotation: (document.getElementById("wd-student-annotation") as HTMLInputElement)?.checked ?? assignment.submissionOptions.studentAnnotation,
-                fileUpload: (document.getElementById("wd-file-upload") as HTMLInputElement)?.checked ?? assignment.submissionOptions.fileUpload,
-            },
-            assignTo: (document.getElementById("wd-assign-to") as HTMLInputElement)?.value || assignment.assignTo,
-            dueDate: (document.getElementById("wd-due-date") as HTMLInputElement)?.value || assignment.dueDate,
-            availableDate: (document.getElementById("wd-available-from") as HTMLInputElement)?.value || assignment.availableDate,
-            availableUntil: (document.getElementById("wd-available-until") as HTMLInputElement)?.value || assignment.availableUntil,
-        };
-
-        dispatch(updateAssignment(updatedAssignment));
+        console.log(assignment);
+        const newId = getNextAssignmentId(assignments);
+        const newAssignment = { ...assignment, _id: newId };
+        dispatch(addAssignment(newAssignment));
         navigate(`/Kanbas/Courses/${cid}/Assignments`);
-    };
+    }
 
     const handleCancel = () => {
-        navigate(`/Kanbas/Courses/${cid}/Assignments`);
+        navigate(`/Kanbas/Courses / ${cid} / Assignments`);
     };
-
-    if (!assignment) {
-        console.log(cid, aid);
-        return <div>Loading...</div>;
-    }
 
     return (
         <div id="wd-assignments-editor" className="container">

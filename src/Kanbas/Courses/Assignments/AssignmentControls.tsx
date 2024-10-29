@@ -1,6 +1,8 @@
 import { FaPlus, FaSearch } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-export default function AssignmentControls() {
+const AssignmentControls = ({ cid = '' }) => {
+    const navigate = useNavigate();
     return (
         <div id="wd-assignments" className="container-fluid mb-3">
             <div className="row">
@@ -21,7 +23,8 @@ export default function AssignmentControls() {
                         <FaPlus className="me-1" />
                         Group
                     </button>
-                    <button id="wd-add-assignment" className="btn btn-danger">
+                    <button id="wd-add-assignment" className="btn btn-danger"
+                        onClick={() => navigate(`/Kanbas/Courses/${cid}/Assignments/New`)}>
                         <FaPlus className="me-1" />
                         Assignment
                     </button>
@@ -30,3 +33,9 @@ export default function AssignmentControls() {
         </div>
     );
 }
+
+AssignmentControls.defaultProps = {
+    cid: undefined,
+};
+
+export default AssignmentControls;

@@ -5,20 +5,33 @@ import AssignmentControls from "./AssignmentControls";
 import GreenClipboard from "./GreenClipboard";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteAssignment } from "./reducer";
 
 export default function Assignments() {
     const { cid } = useParams();
     const { assignments } = useSelector((state: any) => state.assignmentsReducer);
     const filteredAssignments = assignments.filter((assignment: any) => assignment.course === cid);
     const { currentUser } = useSelector((state: any) => state.accountReducer);
+    const dispatch = useDispatch();
+
+    const formatDate = (dateString: any) => {
+        const date = new Date(dateString);
+        return date.toLocaleString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+        });
+    };
 
     return (
         <div>
             {currentUser.role === 'FACULTY' && (
                 <>
                     <div className="d-flex justify-content-between align-items-center">
-                        <AssignmentControls /><br /><br />
+                        <AssignmentControls cid={cid} /><br /><br />
                     </div>
                 </>)}
 
@@ -53,15 +66,18 @@ export default function Assignments() {
                                         </Link>
                                         <small className="d-block">
                                             <span style={{ color: 'red' }}>Multiple Modules</span> |
-                                            <b> Not available until</b> {assignment.availableFromText} |
-                                            <br /><b>Due</b> {assignment.dueDateText} | {assignment.points} pts
+                                            <b> Not available until</b> {formatDate(assignment.availableDate)} |
+                                            <br /><b>Due</b> {formatDate(assignment.availableUntil)} | {assignment.points} pts
                                         </small>
                                     </div>
                                 </div>
                                 <div>
                                     {currentUser.role === 'FACULTY' && (
                                         <>
-                                            <IndividualAssignmentControlButtons />
+                                            <IndividualAssignmentControlButtons assignmentId={assignment._id}
+                                                deleteAssignment={(assignmentId) => {
+                                                    dispatch(deleteAssignment(assignmentId));
+                                                }} />
                                         </>)}
                                 </div>
                             </li>
