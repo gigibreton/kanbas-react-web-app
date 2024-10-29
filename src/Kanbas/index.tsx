@@ -18,6 +18,8 @@ export default function Kanbas() {
     });
     const addNewCourse = () => {
         setCourses([...courses, { ...course, _id: new Date().getTime().toString() }]);
+        console.log(course);
+        console.log(courses);
     };
     const deleteCourse = (courseId: any) => {
         setCourses(courses.filter((course) => course._id !== courseId));

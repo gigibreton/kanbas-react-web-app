@@ -37,9 +37,11 @@ export default function Dashboard(
         }
     };
 
-    const displayedCourses = showEnrollments
+    const displayedCourses = currentUser.role === 'FACULTY'
         ? courses
-        : courses.filter((course) => isEnrolled(course._id));
+        : (showEnrollments ? courses : courses.filter((course) => isEnrolled(course._id)));
+
+
 
     return (
         <div id="wd-dashboard">
