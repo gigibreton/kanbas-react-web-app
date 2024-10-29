@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateAssignment } from "../../Courses/Assignments/reducer";
 
-export default function AssignmentEditor() {
+export default function AssignmentsEditor() {
     const { cid, aid } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -75,8 +75,10 @@ export default function AssignmentEditor() {
     }
 
     return (
-        <div id="wd-assignments-editor" className="container">
-            <form id="wd-assignment-editor" onSubmit={handleSave} onAbort={handleCancel}>
+        <div id="wd-assignments-AssignmentsEditor
+    " className="container">
+            <form id="wd-assignment-AssignmentsEditor
+        " onSubmit={handleSave} onAbort={handleCancel}>
                 <div className="mb-3">
                     <label htmlFor="wd-name" className="form-label">Assignment Name</label>
                     <input

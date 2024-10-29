@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addAssignment } from "./reducer";
 
-export default function NewAssignmentEditor() {
+export default function AssignmentEditor() {
     const { cid } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();

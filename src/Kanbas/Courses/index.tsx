@@ -3,10 +3,10 @@ import CoursesNavigation from "./Navigation";
 import Modules from "./Modules";
 import Home from "./Home";
 import Assignments from "./Assignments";
-import AssignmentEditor from "./Assignments/Editor";
+import AssignmentsEditor from "./Assignments/Editor";
 import { FaAlignJustify } from "react-icons/fa";
 import PeopleTable from "./People/Table";
-import NewAssignmentEditor from "./Assignments/NewAssignmentEditor";
+import AssignmentEditor from "./Assignments/AssignmentEditor";
 
 export default function Courses({ courses }: { courses: any[]; }) {
     const { cid } = useParams();
@@ -28,8 +28,8 @@ export default function Courses({ courses }: { courses: any[]; }) {
                         <Route path="Home" element={<Home />} />
                         <Route path="Modules" element={<Modules />} />
                         <Route path="Assignments" element={<Assignments />} />
-                        <Route path="Assignments/:aid" element={<AssignmentEditor />} />
-                        <Route path="Assignments/New" element={<NewAssignmentEditor />} />
+                        <Route path="Assignments/:aid" element={<AssignmentsEditor />} />
+                        <Route path="Assignments/New" element={<AssignmentEditor />} />
                         <Route path="People" element={<PeopleTable />} />
                     </Routes>
                 </div>
