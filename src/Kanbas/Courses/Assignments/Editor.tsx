@@ -8,7 +8,10 @@ export default function AssignmentsEditor() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+    const { currentUser } = useSelector((state: any) => state.accountReducer);
     const [assignment, setAssignment] = useState<null | typeof assignments[0]>(null);
+
+    const isReadOnly = currentUser.role === "STUDENT";
 
     useEffect(() => {
         console.log(assignments);
@@ -88,6 +91,7 @@ export default function AssignmentsEditor() {
                         name="title"
                         value={assignment.title}
                         onChange={handleChange}
+                        readOnly={isReadOnly}
                     />
                 </div>
 
@@ -101,6 +105,7 @@ export default function AssignmentsEditor() {
                         rows={15}
                         value={assignment.description}
                         onChange={handleChange}
+                        readOnly={isReadOnly}
                     />
                 </div>
 
@@ -113,6 +118,7 @@ export default function AssignmentsEditor() {
                         name="points"
                         value={assignment.points}
                         onChange={handleChange}
+                        readOnly={isReadOnly}
                     />
                 </div>
 
@@ -122,7 +128,8 @@ export default function AssignmentsEditor() {
                         className="form-select"
                         name="group"
                         value={assignment.group}
-                        onChange={handleChange}>
+                        onChange={handleChange}
+                        disabled={isReadOnly}>
                         <option value="ASSIGNMENTS">ASSIGNMENTS</option>
                         <option value="QUIZZES">QUIZZES</option>
                     </select>
@@ -134,9 +141,10 @@ export default function AssignmentsEditor() {
                         className="form-select"
                         name="displayGradeAs"
                         value={assignment.displayGradeAs}
-                        onChange={handleChange}>
-                        <option value="ASSIGNMENTS">Percentage</option>
-                        <option value="QUIZZES">Number</option>
+                        onChange={handleChange}
+                        disabled={isReadOnly}>
+                        <option value="PERCENTAGE">Percentage</option>
+                        <option value="NUMBER">Number</option>
                     </select>
                 </div>
 
@@ -147,7 +155,8 @@ export default function AssignmentsEditor() {
                             className="form-select"
                             name="submissionType"
                             value={assignment.submissionType}
-                            onChange={handleChange}>
+                            onChange={handleChange}
+                            disabled={isReadOnly}>
                             <option value="ONLINE">Online</option>
                             <option value="IN-PERSON">In Person</option>
                         </select>
@@ -160,7 +169,8 @@ export default function AssignmentsEditor() {
                                     id="wd-text-entry"
                                     name="textEntry"
                                     checked={assignment.submissionOptions.textEntry}
-                                    onChange={handleCheckboxChange} />
+                                    onChange={handleCheckboxChange}
+                                    disabled={isReadOnly} />
                                 <label className="form-check-label" htmlFor="wd-text-entry">Text Entry</label>
                             </div>
                             <div className="form-check">
@@ -169,7 +179,8 @@ export default function AssignmentsEditor() {
                                     id="wd-website-url"
                                     name="websiteUrl"
                                     checked={assignment.submissionOptions.websiteUrl}
-                                    onChange={handleCheckboxChange} />
+                                    onChange={handleCheckboxChange}
+                                    disabled={isReadOnly} />
                                 <label className="form-check-label" htmlFor="wd-website-url">Website URL</label>
                             </div>
                             <div className="form-check">
@@ -178,7 +189,8 @@ export default function AssignmentsEditor() {
                                     id="wd-media-recordings"
                                     name="mediaRecordings"
                                     checked={assignment.submissionOptions.mediaRecordings}
-                                    onChange={handleCheckboxChange} />
+                                    onChange={handleCheckboxChange}
+                                    disabled={isReadOnly} />
                                 <label className="form-check-label" htmlFor="wd-media-recordings">Media Recordings</label>
                             </div>
                             <div className="form-check">
@@ -187,7 +199,8 @@ export default function AssignmentsEditor() {
                                     id="wd-student-annotation"
                                     name="studentAnnotation"
                                     checked={assignment.submissionOptions.studentAnnotation}
-                                    onChange={handleCheckboxChange} />
+                                    onChange={handleCheckboxChange}
+                                    disabled={isReadOnly} />
                                 <label className="form-check-label" htmlFor="wd-student-annotation">Student Annotation</label>
                             </div>
                             <div className="form-check">
@@ -196,7 +209,8 @@ export default function AssignmentsEditor() {
                                     id="wd-file-upload"
                                     name="fileUpload"
                                     checked={assignment.submissionOptions.fileUpload}
-                                    onChange={handleCheckboxChange} />
+                                    onChange={handleCheckboxChange}
+                                    disabled={isReadOnly} />
                                 <label className="form-check-label" htmlFor="wd-file-upload">File Uploads</label>
                             </div>
                         </fieldset>
@@ -213,6 +227,7 @@ export default function AssignmentsEditor() {
                             name="assignTo"
                             value={assignment.assignTo}
                             onChange={handleChange}
+                            readOnly={isReadOnly}
                         />
 
                         <div className="mb-3">
@@ -224,6 +239,7 @@ export default function AssignmentsEditor() {
                                 className="form-control"
                                 value={assignment.dueDate}
                                 onChange={handleChange}
+                                readOnly={isReadOnly}
                             />
                         </div>
 
@@ -237,6 +253,7 @@ export default function AssignmentsEditor() {
                                     name="availableDate"
                                     value={assignment.availableDate}
                                     onChange={handleChange}
+                                    readOnly={isReadOnly}
                                 />
                             </div>
                             <div className="col-md-6">
@@ -248,6 +265,7 @@ export default function AssignmentsEditor() {
                                     name="availableUntil"
                                     value={assignment.availableUntil}
                                     onChange={handleChange}
+                                    readOnly={isReadOnly}
                                 />
                             </div>
                         </div>
@@ -258,7 +276,7 @@ export default function AssignmentsEditor() {
                     <Link to={`/Kanbas/Courses/${cid}/Assignments`} id="wd-cancel" className="btn btn-secondary">
                         Cancel
                     </Link>
-                    <button type="submit" id="wd-save" className="btn btn-danger" >
+                    <button type="submit" id="wd-save" className="btn btn-danger" disabled={isReadOnly} >
                         Save
                     </button>
                 </div>
