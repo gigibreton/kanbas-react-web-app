@@ -68,9 +68,7 @@ export default function WorkingWithArrays() {
                 <label className="form-check-label" htmlFor="wd-todo-completed">
                     Completed
                 </label>
-            </div>
-            <hr />
-            <br /><br /><hr />
+            </div><br /><hr />
         </div>
     );
 }

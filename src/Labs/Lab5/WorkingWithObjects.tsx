@@ -41,4 +41,72 @@ export default function WorkingWithObjects() {
                 href={`${ASSIGNMENT_API_URL}/completed/${assignment.completed}`}>
                 Update Completed
             </a>
-            <div className="f
+            <div className="form-check">
+                <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id="wd-assignment-completed"
+                    checked={assignment.completed}
+                    onChange={(e) =>
+                        setAssignment({ ...assignment, completed: e.target.checked })
+                    }
+                />
+                <label className="form-check-label" htmlFor="wd-assignment-completed">
+                    Completed
+                </label>
+            </div>
+            <hr />
+            <h5><b>Module</b></h5>
+            <a id="wd-update-module-name"
+                className="btn btn-primary float-end"
+                href={`${MODULE_API_URL}/name/${module.name}`}>
+                Update Name
+            </a>
+            <input className="form-control w-75" id="wd-module-name"
+                defaultValue={module.name} onChange={(e) =>
+                    setModule({ ...module, name: e.target.value })} />
+            <hr />
+            <a id="wd-update-module-description"
+                className="btn btn-primary float-end"
+                href={`${MODULE_API_URL}/description/${module.description}`}>
+                Update Description
+            </a>
+            <input className="form-control w-75" id="wd-module-description"
+                defaultValue={module.description} onChange={(e) =>
+                    setModule({ ...module, description: e.target.value })} />
+            <hr />
+            <h4>Retrieving Objects</h4>
+            <a id="wd-retrieve-assignments" className="btn btn-primary"
+                href={`${REMOTE_SERVER}/lab5/assignment`}>
+                Get Assignment
+            </a><hr />
+            <a id="wd-retrieve-modules" className="btn btn-primary"
+                href={`${REMOTE_SERVER}/lab5/module`}>
+                Get Module
+            </a><hr />
+            <h4>Retrieving Properties</h4>
+            <h5><b>Assignment</b></h5>
+            <a id="wd-retrieve-assignment-title" className="btn btn-primary"
+                href={`${REMOTE_SERVER}/lab5/assignment/title`}>
+                Get Assignment Title
+            </a><hr />
+            <a id="wd-retrieve-assignment-score" className="btn btn-primary"
+                href={`${REMOTE_SERVER}/lab5/assignment/score`}>
+                Get Assignment Score
+            </a><hr />
+            <a id="wd-retrieve-assignment-completed" className="btn btn-primary"
+                href={`${REMOTE_SERVER}/lab5/assignment/completed`}>
+                Get Assignment Completed T/F
+            </a><hr />
+            <h5><b>Module</b></h5>
+            <a id="wd-retrieve-module-name" className="btn btn-primary"
+                href={`${REMOTE_SERVER}/lab5/module/name`}>
+                Get Module Name
+            </a><hr />
+            <a id="wd-retrieve-module-description" className="btn btn-primary"
+                href={`${REMOTE_SERVER}/lab5/module/description`}>
+                Get Module Description
+            </a><hr />
+        </div>
+    );
+}
