@@ -6,42 +6,14 @@ import { enrollInCourse, unenrollFromCourse } from "../Enrollments/reducer";
 export default function Dashboard(
     { courses, course, setCourse, addNewCourse,
         deleteCourse, updateCourse }: {
-            courses: any[]; course: any; setCourse: (course: any) => void;
-            addNewCourse: () => void; deleteCourse: (course: any) => void;
+            courses: any[]; course: any;
+            setCourse: (course: any) => void;
+            addNewCourse: () => void;
+            deleteCourse: (course: any) => void;
             updateCourse: () => void;
         }) {
     const { currentUser } = useSelector((state: any) => state.accountReducer);
-    const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
     const dispatch = useDispatch();
-    const [showEnrollments, setShowEnrollments] = useState(false);
-
-    const handleToggleEnrollments = () => {
-        setShowEnrollments(!showEnrollments);
-    };
-
-    const isEnrolled = (courseId: string) => {
-        return enrollments.some((enrollment: any) => enrollment.user === currentUser._id && enrollment.course === courseId);
-    };
-
-    const handleEnrollToggle = (courseId: string) => {
-        const enrollmentPayload = {
-            userId: currentUser._id,
-            user: currentUser._id, // Assuming the user field is the same as _id
-            courseId: courseId
-        };
-
-        if (isEnrolled(courseId)) {
-            dispatch(unenrollFromCourse(enrollmentPayload));
-        } else {
-            dispatch(enrollInCourse(enrollmentPayload));
-        }
-    };
-
-    const displayedCourses = currentUser.role === 'FACULTY'
-        ? courses
-        : (showEnrollments ? courses : courses.filter((course) => isEnrolled(course._id)));
-
-
 
     return (
         <div id="wd-dashboard">
@@ -65,18 +37,11 @@ export default function Dashboard(
                 </>
             )}
 
-            {currentUser.role === 'STUDENT' && (
-                <button className="btn btn-primary float-end me-2" onClick={handleToggleEnrollments}>
-                    {showEnrollments ? "Show Enrolled Courses Only" : "Show All Courses"}
-                </button>
-            )}
-
-            <h4 id="wd-dashboard-published">Published Courses ({displayedCourses.length})</h4>
+            <h4 id="wd-dashboard-published">Published Courses ({courses.length})</h4>
             <hr />
             <div id="wd-dashboard-courses" className="row">
                 <div className="row row-cols-1 row-cols-md-5 g-4">
-                    {displayedCourses.map((course) => {
-                        const enrolled = isEnrolled(course._id);
+                    {courses.map((course) => {
                         return (
                             <div className="wd-dashboard-course col" style={{ width: "270px" }} key={course._id}>
                                 <div className="card rounded-3 overflow-hidden">
@@ -99,17 +64,17 @@ export default function Dashboard(
                                             </small>
                                             <button className="btn btn-primary"> Go </button>
 
-                                            {currentUser.role === 'STUDENT' && (
+                                            {/* {currentUser.role === 'STUDENT' && (
                                                 <button
                                                     onClick={(e) => {
                                                         e.preventDefault();
                                                         handleEnrollToggle(course._id);
                                                     }}
-                                                    className={`btn ${enrolled ? "btn-danger" : "btn-success"} float-end`}
+                                                    className={`btn ${currentUser.enrollments.includes(course._id) ? "btn-danger" : "btn-success"} float-end`}
                                                 >
-                                                    {enrolled ? "Unenroll" : "Enroll"}
+                                                    {currentUser.enrollments.includes(course._id) ? "Unenroll" : "Enroll"}
                                                 </button>
-                                            )}
+                                            )} */}
 
                                             {currentUser.role === 'FACULTY' && (
                                                 <>
