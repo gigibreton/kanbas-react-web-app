@@ -27,25 +27,35 @@ export default function TOC() {
                 </a>
             </li>
             <li className="nav-item">
-                <a id="wd-a3" href="#/Labs/Lab4"
+                <a id="wd-a4" href="#/Labs/Lab4"
                     className={`nav-link ${pathname.includes("Lab4") ? "active" : ""}`}>
                     Lab 4
                 </a>
             </li>
             <li className="nav-item">
-                <a id="wd-a3" href="#/Labs/Lab5"
+                <a id="wd-a5" href="#/Labs/Lab5"
                     className={`nav-link ${pathname.includes("Lab5") ? "active" : ""}`}>
                     Lab 5
                 </a>
             </li>
             <li className="nav-item">
-                <a id="wd-k" href="#/Kanbas" className="nav-link">
+                <a id="wd-kanbas" href="#/Kanbas" className="nav-link">
                     Kanbas
                 </a>
             </li>
             <li className="nav-item">
-                <a id="wd-k" href="https://github.com/gigibreton/kanbas-react-web-app.git" className="nav-link">
-                    GitHub Repository
+                <a id="wd-react-github-repo" href="https://github.com/gigibreton/kanbas-react-web-app.git" className="nav-link">
+                    React GitHub Repository
+                </a>
+            </li>
+            <li className="nav-item">
+                <a id="wd-node-github-repo" href="https://github.com/gigibreton/kanbas-node-server-app.git" className="nav-link">
+                    Node GitHub Repository
+                </a>
+            </li>
+            <li className="nav-item">
+                <a id="wd-render-server" href="https://kanbas-node-server-app-c09l.onrender.com" className="nav-link">
+                    Render Server
                 </a>
             </li>
         </ul>
