@@ -44,12 +44,12 @@ export default function TOC() {
                 </a>
             </li>
             <li className="nav-item">
-                <a id="wd-react-github-repo" href="https://github.com/gigibreton/kanbas-react-web-app.git" className="nav-link">
+                <a id="wd-react-github-repo-link" href="https://github.com/gigibreton/kanbas-react-web-app.git" className="nav-link">
                     React GitHub Repository
                 </a>
             </li>
             <li className="nav-item">
-                <a id="wd-node-github-repo" href="https://github.com/gigibreton/kanbas-node-server-app.git" className="nav-link">
+                <a id="wd-node-github-repo-link" href="https://github.com/gigibreton/kanbas-node-server-app.git" className="nav-link">
                     Node GitHub Repository
                 </a>
             </li>
