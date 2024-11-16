@@ -13,7 +13,7 @@ export default function Signup() {
         navigate("/Kanbas/Account/Profile");
     };
     return (
-        <div id="wd-signup-screen">
+        <div className="wd-signup-screen">
             <h3>Sign up</h3>
             <input value={user.username} onChange={(e) => setUser({ ...user, username: e.target.value })}
                 className="wd-username form-control mb-2" placeholder="username" />

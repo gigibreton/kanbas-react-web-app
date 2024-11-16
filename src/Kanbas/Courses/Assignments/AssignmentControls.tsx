@@ -24,7 +24,7 @@ const AssignmentControls = ({ cid = '' }) => {
                         Group
                     </button>
                     <button id="wd-add-assignment" className="btn btn-danger"
-                        onClick={() => navigate(`/Kanbas/Courses/${cid}/Assignments/New`)}>
+                        onClick={() => navigate(`/Kanbas/Courses/${cid}/Assignments/new`)}>
                         <FaPlus className="me-1" />
                         Assignment
                     </button>

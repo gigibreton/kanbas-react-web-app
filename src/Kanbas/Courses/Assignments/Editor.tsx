@@ -1,25 +1,36 @@
-import { useEffect, useState, FormEvent } from "react";
+import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { updateAssignment } from "../../Courses/Assignments/reducer";
+import { updateAssignment, addAssignment } from "../../Courses/Assignments/reducer";
+import * as assignmentsClient from "./client";
+import * as coursesClient from "../client";
 
 export default function AssignmentsEditor() {
     const { cid, aid } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { assignments } = useSelector((state: any) => state.assignmentsReducer);
     const { currentUser } = useSelector((state: any) => state.accountReducer);
-    const [assignment, setAssignment] = useState<null | typeof assignments[0]>(null);
-
     const isReadOnly = currentUser.role === "STUDENT";
-
-    useEffect(() => {
-        console.log(assignments);
-        const foundAssignment = assignments.find(
-            (assignment: any) => assignment.course === cid && assignment._id === aid
-        );
-        setAssignment(foundAssignment || null);
-    }, [cid, aid]);
+    const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+    const [assignment, setAssignment] = useState<any>(aid === "new" ? {
+        title: "",
+        description: "",
+        points: 100,
+        group: "ASSIGNMENTS",
+        displayGradeAs: "Percentage",
+        submissionType: "Online",
+        submissionOptions: {
+            textEntry: "",
+            websiteUrl: "",
+            mediaRecordings: "",
+            studentAnnotation: "",
+            fileUpload: "",
+        },
+        assignTo: "Everyone",
+        dueDate: "2024-12-31",
+        availableDate: "2024-12-24",
+        availableUntil: "2024-12-31",
+    } : assignments.find((assignment: any) => assignment._id === aid));
 
     const handleChange = (e: any) => {
         const value = e.target.value;
@@ -37,38 +48,23 @@ export default function AssignmentsEditor() {
         }));
     };
 
-    const handleSave = () => {
-        if (!assignment) {
-            console.error("Assignment data is missing.");
-            return;
-        }
-
-        const updatedAssignment = {
-            ...assignment,
-            title: (document.getElementById("wd-name") as HTMLInputElement)?.value || assignment.title,
-            description: (document.getElementById("wd-description") as HTMLInputElement)?.value || assignment.description,
-            points: Number((document.getElementById("wd-points") as HTMLInputElement)?.value) || assignment.points,
-            group: (document.getElementById("wd-group") as HTMLInputElement)?.value || assignment.group,
-            displayGradeAs: (document.getElementById("wd-display-grade-as") as HTMLInputElement)?.value || assignment.displayGradeAs,
-            submissionType: (document.getElementById("wd-submission-type") as HTMLInputElement)?.value || assignment.submissionType,
-            submissionOptions: {
-                textEntry: (document.getElementById("wd-text-entry") as HTMLInputElement)?.checked ?? assignment.submissionOptions.textEntry,
-                websiteUrl: (document.getElementById("wd-website-url") as HTMLInputElement)?.checked ?? assignment.submissionOptions.websiteUrl,
-                mediaRecordings: (document.getElementById("wd-media-recordings") as HTMLInputElement)?.checked ?? assignment.submissionOptions.mediaRecordings,
-                studentAnnotation: (document.getElementById("wd-student-annotation") as HTMLInputElement)?.checked ?? assignment.submissionOptions.studentAnnotation,
-                fileUpload: (document.getElementById("wd-file-upload") as HTMLInputElement)?.checked ?? assignment.submissionOptions.fileUpload,
-            },
-            assignTo: (document.getElementById("wd-assign-to") as HTMLInputElement)?.value || assignment.assignTo,
-            dueDate: (document.getElementById("wd-due-date") as HTMLInputElement)?.value || assignment.dueDate,
-            availableDate: (document.getElementById("wd-available-from") as HTMLInputElement)?.value || assignment.availableDate,
-            availableUntil: (document.getElementById("wd-available-until") as HTMLInputElement)?.value || assignment.availableUntil,
-        };
-
-        dispatch(updateAssignment(updatedAssignment));
-        navigate(`/Kanbas/Courses/${cid}/Assignments`);
+    const createAssignmentForCourse = async () => {
+        if (!cid) return;
+        const newAssignment = await coursesClient.createAssignmentForCourse(cid, assignment);
+        dispatch(addAssignment(newAssignment));
     };
 
-    const handleCancel = () => {
+    const saveAssignment = async (assignment: any) => {
+        await assignmentsClient.updateAssignment(assignment);
+        dispatch(updateAssignment(assignment));
+    };
+
+    const handleSave = () => {
+        if (aid === "new") {
+            createAssignmentForCourse();
+        } else {
+            saveAssignment(assignment);
+        }
         navigate(`/Kanbas/Courses/${cid}/Assignments`);
     };
 
@@ -76,6 +72,10 @@ export default function AssignmentsEditor() {
         console.log(cid, aid);
         return <div>Loading...</div>;
     }
+
+    const handleCancel = () => {
+        navigate(`/Kanbas/Courses/${cid}/Assignments`);
+    };
 
     return (
         <div id="wd-assignments-AssignmentsEditor
@@ -91,8 +91,7 @@ export default function AssignmentsEditor() {
                         name="title"
                         value={assignment.title}
                         onChange={handleChange}
-                        readOnly={isReadOnly}
-                    />
+                        readOnly={isReadOnly} />
                 </div>
 
                 <div className="mb-3">
@@ -105,8 +104,7 @@ export default function AssignmentsEditor() {
                         rows={15}
                         value={assignment.description}
                         onChange={handleChange}
-                        readOnly={isReadOnly}
-                    />
+                        readOnly={isReadOnly} />
                 </div>
 
                 <div className="mb-3">
@@ -118,8 +116,7 @@ export default function AssignmentsEditor() {
                         name="points"
                         value={assignment.points}
                         onChange={handleChange}
-                        readOnly={isReadOnly}
-                    />
+                        readOnly={isReadOnly} />
                 </div>
 
                 <div className="mb-3">
@@ -227,8 +224,7 @@ export default function AssignmentsEditor() {
                             name="assignTo"
                             value={assignment.assignTo}
                             onChange={handleChange}
-                            readOnly={isReadOnly}
-                        />
+                            readOnly={isReadOnly} />
 
                         <div className="mb-3">
                             <label htmlFor="wd-due-date" className="form-label">Due Date</label>
@@ -239,8 +235,7 @@ export default function AssignmentsEditor() {
                                 className="form-control"
                                 value={assignment.dueDate}
                                 onChange={handleChange}
-                                readOnly={isReadOnly}
-                            />
+                                readOnly={isReadOnly} />
                         </div>
 
                         <div className="row mb-3">
@@ -253,8 +248,7 @@ export default function AssignmentsEditor() {
                                     name="availableDate"
                                     value={assignment.availableDate}
                                     onChange={handleChange}
-                                    readOnly={isReadOnly}
-                                />
+                                    readOnly={isReadOnly} />
                             </div>
                             <div className="col-md-6">
                                 <label htmlFor="wd-available-until" className="form-label">Until</label>
@@ -265,8 +259,7 @@ export default function AssignmentsEditor() {
                                     name="availableUntil"
                                     value={assignment.availableUntil}
                                     onChange={handleChange}
-                                    readOnly={isReadOnly}
-                                />
+                                    readOnly={isReadOnly} />
                             </div>
                         </div>
                     </div>
@@ -276,7 +269,7 @@ export default function AssignmentsEditor() {
                     <Link to={`/Kanbas/Courses/${cid}/Assignments`} id="wd-cancel" className="btn btn-secondary">
                         Cancel
                     </Link>
-                    <button type="submit" id="wd-save" className="btn btn-danger" disabled={isReadOnly} >
+                    <button type="submit" id="wd-save" className="btn btn-danger" onClick={handleSave} disabled={isReadOnly} >
                         Save
                     </button>
                 </div>

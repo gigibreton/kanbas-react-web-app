@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrentUser } from "./reducer";
 import * as client from "./client";
+
 export default function Profile() {
-    const [profile, setProfile] = useState<any>({});
+    const [profile, setProfile] = useState<any>(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { currentUser } = useSelector((state: any) => state.accountReducer);

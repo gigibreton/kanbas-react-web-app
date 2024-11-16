@@ -6,14 +6,28 @@ import GreenClipboard from "./GreenClipboard";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteAssignment } from "./reducer";
-
+import { deleteAssignment, setAssignments } from "./reducer";
+import * as assignmentsClient from "./client";
+import * as coursesClient from "../client";
+import { useEffect } from "react";
 export default function Assignments() {
     const { cid } = useParams();
     const { assignments } = useSelector((state: any) => state.assignmentsReducer);
-    const filteredAssignments = assignments.filter((assignment: any) => assignment.course === cid);
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     const dispatch = useDispatch();
+
+    const fetchAssignments = async () => {
+        const assignments = await coursesClient.findAssignmentsForCourse(cid as string);
+        dispatch(setAssignments(assignments));
+    };
+    useEffect(() => {
+        fetchAssignments();
+    }, []);
+
+    const removeAssignment = async (assignmentId: string) => {
+        await assignmentsClient.deleteAssignment(assignmentId);
+        dispatch(deleteAssignment(assignmentId));
+    };
 
     const formatDate = (dateString: any) => {
         const date = new Date(dateString);
@@ -35,8 +49,8 @@ export default function Assignments() {
                     </div>
                 </>)}
 
-            <ul id="wd-modules" className="list-group-rounded-0">
-                <div className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
+            <ul id="wd-assignments" className="list-group-rounded-0">
+                <div className="wd-assignment list-group-item p-0 mb-5 fs-5 border-gray">
                     <div className="wd-title p-3 ps-2 bg-secondary d-flex justify-content-between align-items-center">
                         <div className="d-flex align-items-center">
                             <BsGripVertical className="me-2 fs-2" />
@@ -51,9 +65,9 @@ export default function Assignments() {
                         </div>
                     </div>
 
-                    <ul className="wd-lesson list-group rounded-0">
-                        {filteredAssignments.map((assignment: any) => (
-                            <li key={assignment._id} className="wd-lesson list-group-item p-3 d-flex justify-content-between align-items-center">
+                    <ul className="wd-assignments list-group rounded-0">
+                        {assignments.map((assignment: any) => (
+                            <li key={assignment._id} className="wd-assignments list-group-item p-3 d-flex justify-content-between align-items-center">
                                 <div className="d-flex align-items-center">
                                     <BsGripVertical className="me-2 fs-3" />
                                     <GreenClipboard />
@@ -75,9 +89,7 @@ export default function Assignments() {
                                     {currentUser.role === 'FACULTY' && (
                                         <>
                                             <IndividualAssignmentControlButtons assignmentId={assignment._id}
-                                                deleteAssignment={(assignmentId) => {
-                                                    dispatch(deleteAssignment(assignmentId));
-                                                }} />
+                                                deleteAssignment={removeAssignment} />
                                         </>)}
                                 </div>
                             </li>
