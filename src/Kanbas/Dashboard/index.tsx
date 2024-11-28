@@ -24,7 +24,7 @@ export default function Dashboard(
     const [displayedCourses, setDisplayedCourses] = useState<any[]>([]);
 
     const fetchDisplayedCourses = async () => {
-        if (currentUser.role === "FACULTY" || isEnrollmentMode) {
+        if (currentUser.role === "FACULTY" || currentUser.role === "ADMIN" || isEnrollmentMode) {
             setDisplayedCourses(await courseClient.fetchAllCourses());
         } else {
             setDisplayedCourses(courses);
@@ -46,7 +46,7 @@ export default function Dashboard(
         <div id="wd-dashboard">
             <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
 
-            {currentUser.role === "FACULTY" &&
+            {(currentUser.role === "FACULTY" || currentUser.role === "ADMIN") &&
                 <>
                     <h5>New Course
                         <button className="btn btn-primary float-end"
@@ -122,7 +122,7 @@ export default function Dashboard(
                                             </button>
                                         )}
 
-                                        {currentUser.role === "FACULTY" &&
+                                        {(currentUser.role === "FACULTY" || currentUser.role === "ADMIN") &&
                                             <>
                                                 <button
                                                     onClick={(e) => {
