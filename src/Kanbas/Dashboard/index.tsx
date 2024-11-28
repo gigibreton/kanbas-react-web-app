@@ -7,12 +7,15 @@ import * as userClient from "../Account/client";
 
 export default function Dashboard(
     { courses, course, setCourse, addNewCourse,
-        deleteCourse, updateCourse }: {
+        deleteCourse, updateCourse, enrolling, setEnrolling, updateEnrollment }: {
             courses: any[]; course: any;
             setCourse: (course: any) => void;
             addNewCourse: () => void;
             deleteCourse: (course: any) => void;
             updateCourse: () => void;
+            enrolling: boolean;
+            setEnrolling: (enrolling: boolean) => void;
+            updateEnrollment: (courseId: string, enrolled: boolean) => void;
         }) {
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     const dispatch = useDispatch();
@@ -62,9 +65,12 @@ export default function Dashboard(
             }
 
             {currentUser.role === "STUDENT" &&
-                <button className="btn btn-primary float-end me-2" id="wd-enrollment-mode-click"
-                    onClick={() => setIsEnrollmentMode(!isEnrollmentMode)}>
-                    Enrollment
+                // <button className="btn btn-primary float-end me-2" id="wd-enrollment-mode-click"
+                //     onClick={() => setIsEnrollmentMode(!isEnrollmentMode)}>
+                //     Enrollment
+                // </button>
+                <button onClick={() => setEnrolling(!enrolling)} className="float-end btn btn-primary" >
+                    {enrolling ? "My Courses" : "All Courses"}
                 </button>
             }
 
@@ -72,7 +78,8 @@ export default function Dashboard(
             <hr />
             <div id="wd-dashboard-courses" className="row">
                 <div className="row row-cols-1 row-cols-md-5 g-4">
-                    {displayedCourses.map((course) => (
+                    {/* {displayedCourses.map((course) => ( */}
+                    {courses.map((course) => (
                         <div className="wd-dashboard-course col" style={{ width: "270px" }} key={course._id}>
                             <div className="card rounded-3 overflow-hidden">
                                 <Link className="wd-dashboard-course-link text-decoration-none text-dark"
@@ -90,22 +97,29 @@ export default function Dashboard(
                                         </small>
                                         <button className="btn btn-primary"> Go </button>
 
-                                        {currentUser.role === "STUDENT" && isEnrollmentMode && (
-                                            enrollments.some((enrollment: any) => enrollment.course === course._id) ?
-                                                <button onClick={(e) => {
-                                                    e.preventDefault();
-                                                    unenrollUser(course._id);
-                                                }}
-                                                    className="btn btn-danger float-end" id="wd-unenroll-course-click">
-                                                    Unenroll
-                                                </button> :
-                                                <button onClick={(e) => {
-                                                    e.preventDefault();
-                                                    enrollUser(course._id);
-                                                }}
-                                                    className="btn btn-success float-end" id="wd-enroll-course-click">
-                                                    Enroll
-                                                </button>
+                                        {currentUser.role === "STUDENT" && enrolling && (
+                                            // enrollments.some((enrollment: any) => enrollment.course === course._id) ?
+                                            //     <button onClick={(e) => {
+                                            //         e.preventDefault();
+                                            //         unenrollUser(course._id);
+                                            //     }}
+                                            //         className="btn btn-danger float-end" id="wd-unenroll-course-click">
+                                            //         Unenroll
+                                            //     </button> :
+                                            //     <button onClick={(e) => {
+                                            //         e.preventDefault();
+                                            //         enrollUser(course._id);
+                                            //     }}
+                                            //         className="btn btn-success float-end" id="wd-enroll-course-click">
+                                            //         Enroll
+                                            //     </button>
+                                            <button onClick={(event) => {
+                                                event.preventDefault();
+                                                updateEnrollment(course._id, !course.enrolled);
+                                            }}
+                                                className={`btn ${course.enrolled ? "btn-danger" : "btn-success"} float-end`} >
+                                                {course.enrolled ? "Unenroll" : "Enroll"}
+                                            </button>
                                         )}
 
                                         {currentUser.role === "FACULTY" &&
