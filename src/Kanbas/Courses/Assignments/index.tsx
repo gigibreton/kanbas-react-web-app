@@ -42,7 +42,7 @@ export default function Assignments() {
 
     return (
         <div>
-            {currentUser.role === 'FACULTY' && (
+            {(currentUser.role === 'FACULTY' || currentUser.role === 'ADMIN') && (
                 <>
                     <div className="d-flex justify-content-between align-items-center">
                         <AssignmentControls cid={cid} /><br /><br />
@@ -86,7 +86,7 @@ export default function Assignments() {
                                     </div>
                                 </div>
                                 <div>
-                                    {currentUser.role === 'FACULTY' && (
+                                    {(currentUser.role === 'FACULTY' || currentUser.role === 'ADMIN') && (
                                         <>
                                             <IndividualAssignmentControlButtons assignmentId={assignment._id}
                                                 deleteAssignment={removeAssignment} />

@@ -57,7 +57,7 @@ export default function Modules() {
                                     defaultValue={module.name} />
                             )}
 
-                            {currentUser.role === 'FACULTY' && (
+                            {(currentUser.role === 'FACULTY' || currentUser.role === 'ADMIN') && (
                                 <>
                                     <ModuleControlButtons
                                         moduleId={module._id}

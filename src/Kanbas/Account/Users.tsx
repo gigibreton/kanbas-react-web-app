@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import PeopleTable from "../Courses/People/Table";
 import * as client from "./client";
+import * as coursesClient from "../Courses/client";
 import { FaPlus } from "react-icons/fa";
 export default function Users() {
+    const { cid } = useParams();
     const [users, setUsers] = useState<any[]>([]);
     const [role, setRole] = useState("");
     const [name, setName] = useState("");
@@ -22,8 +24,13 @@ export default function Users() {
     const filterUsersByName = async (name: string) => {
         setName(name);
         if (name) {
-            const users = await client.findUsersByPartialName(name);
-            setUsers(users);
+            if (cid) {
+                const users = await client.findUsersByNameAndCourse(name, cid);
+                setUsers(users);
+            } else {
+                const users = await client.findUsersByPartialName(name);
+                setUsers(users);
+            }
         } else {
             fetchUsers();
         }
@@ -31,16 +38,26 @@ export default function Users() {
     const filterUsersByRole = async (role: string) => {
         setRole(role);
         if (role) {
-            const users = await client.findUsersByRole(role);
-            setUsers(users);
+            if (cid) {
+                const users = await client.findUsersByRoleAndCourse(role, cid);
+                setUsers(users);
+            } else {
+                const users = await client.findUsersByRole(role);
+                setUsers(users);
+            }
         } else {
             fetchUsers();
         }
     };
     const { uid } = useParams();
     const fetchUsers = async () => {
-        const users = await client.findAllUsers();
-        setUsers(users);
+        if (cid) {
+            const enrolledUsers = await coursesClient.findUsersForCourse(cid);
+            setUsers(enrolledUsers);
+        } else {
+            const allUsers = await client.findAllUsers();
+            setUsers(allUsers);
+        }
     };
     useEffect(() => {
         fetchUsers();
@@ -60,7 +77,7 @@ export default function Users() {
                 <option value="TA">Assistants</option> <option value="FACULTY">Faculty</option>
                 <option value="ADMIN">Administrators</option>
             </select>
-            <PeopleTable />
+            <PeopleTable users={users} />
         </div>
     );
 }

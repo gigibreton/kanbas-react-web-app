@@ -58,3 +58,9 @@ body * {
     align-items: center;
     margin-left: auto;
 }
+
+#wd-account-navigation .list-group-item.active {
+    color: black;
+    background-color: white;
+    border-left: 3px solid black !important;
+}

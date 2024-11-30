@@ -2,6 +2,24 @@ import axios from "axios";
 const axiosWithCredentials = axios.create({ withCredentials: true });
 export const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 export const USERS_API = `${REMOTE_SERVER}/api/users`;
+export const findUsersByNameAndCourse = async (name: string, cid: string) => {
+    try {
+        const response = await axios.get(`/api/courses/${cid}/users`, { params: { name } });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching users by name and course:", error);
+        return [];
+    }
+};
+export const findUsersByRoleAndCourse = async (role: string, cid: string) => {
+    try {
+        const response = await axios.get(`/api/courses/${cid}/users`, { params: { role } });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching users by role and course:", error);
+        return [];
+    }
+};
 export const findAllUsers = async () => {
     const response = await axiosWithCredentials.get(USERS_API);
     return response.data;
