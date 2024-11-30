@@ -69,20 +69,6 @@ export default function Kanbas() {
         }
     }, [currentUser, enrolling]);
 
-
-    // const fetchCourses = async () => {
-    //     let courses = [];
-    //     try {
-    //         courses = await courseClient.fetchAllCourses();
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    //     setCourses(courses);
-    // };
-    // useEffect(() => {
-    //     fetchCourses();
-    // }, [currentUser, enrollments]);
-
     const fetchEnrollments = async () => {
         if (!currentUser) {
             return;
@@ -149,9 +135,7 @@ export default function Kanbas() {
                         } />
                         <Route path="/Courses/:cid/*" element={
                             <ProtectedRoute>
-                                {/*<EnrollmentsProtectedRoute>*/}
                                 <Courses courses={courses} />
-                                {/*</EnrollmentsProtectedRoute>*/}
                             </ProtectedRoute>
                         } />
                         <Route path="/Calendar" element={<h1>Calendar</h1>} />

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { FaTrash } from "react-icons/fa";
 import GreenCheckmark from "../Modules/GreenCheckmark";
-import DeleteAssignment from "./DeleteAssignment";
 import { Modal, Button } from "react-bootstrap";
 
 interface AssignmentControlButtonsProps {

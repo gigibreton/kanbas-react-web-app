@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { enrollInCourse, unenrollFromCourse } from "../Enrollments/reducer";
 import * as courseClient from "../Courses/client";
-import * as userClient from "../Account/client";
 
 export default function Dashboard(
     { courses, course, setCourse, addNewCourse,
@@ -33,15 +31,6 @@ export default function Dashboard(
 
     useEffect(() => { fetchDisplayedCourses(); }, [courses, isEnrollmentMode]);
 
-    const enrollUser = async (courseId: any) => {
-        const enrollment = await userClient.enrollUser(courseId);
-        dispatch(enrollInCourse(enrollment));
-    };
-    const unenrollUser = async (courseId: any) => {
-        await userClient.unenrollUser(courseId);
-        dispatch(unenrollFromCourse({ user: currentUser._id, course: courseId }));
-    };
-
     return (
         <div id="wd-dashboard">
             <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
@@ -65,10 +54,6 @@ export default function Dashboard(
             }
 
             {currentUser.role === "STUDENT" &&
-                // <button className="btn btn-primary float-end me-2" id="wd-enrollment-mode-click"
-                //     onClick={() => setIsEnrollmentMode(!isEnrollmentMode)}>
-                //     Enrollment
-                // </button>
                 <button onClick={() => setEnrolling(!enrolling)} className="float-end btn btn-primary" >
                     {enrolling ? "My Courses" : "All Courses"}
                 </button>
@@ -78,7 +63,6 @@ export default function Dashboard(
             <hr />
             <div id="wd-dashboard-courses" className="row">
                 <div className="row row-cols-1 row-cols-md-5 g-4">
-                    {/* {displayedCourses.map((course) => ( */}
                     {courses.map((course) => (
                         <div className="wd-dashboard-course col" style={{ width: "270px" }} key={course._id}>
                             <div className="card rounded-3 overflow-hidden">
@@ -98,21 +82,6 @@ export default function Dashboard(
                                         <button className="btn btn-primary"> Go </button>
 
                                         {currentUser.role === "STUDENT" && enrolling && (
-                                            // enrollments.some((enrollment: any) => enrollment.course === course._id) ?
-                                            //     <button onClick={(e) => {
-                                            //         e.preventDefault();
-                                            //         unenrollUser(course._id);
-                                            //     }}
-                                            //         className="btn btn-danger float-end" id="wd-unenroll-course-click">
-                                            //         Unenroll
-                                            //     </button> :
-                                            //     <button onClick={(e) => {
-                                            //         e.preventDefault();
-                                            //         enrollUser(course._id);
-                                            //     }}
-                                            //         className="btn btn-success float-end" id="wd-enroll-course-click">
-                                            //         Enroll
-                                            //     </button>
                                             <button onClick={(event) => {
                                                 event.preventDefault();
                                                 updateEnrollment(course._id, !course.enrolled);

@@ -1,18 +1,31 @@
-
 import { FaUserCircle } from "react-icons/fa";
-import * as client from "../../Account/client";
+import * as courseClient from "../client";
 import PeopleDetails from "./Details";
-import { Link } from "react-router-dom";
-export default function PeopleTable({ users = [] }: { users?: any[] }) {
+import { Link, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
+export default function PeopleTable() {
+    const { cid } = useParams();
+    const [users, setUsers] = useState<any[]>([]);
+    const fetchUsers = async () => {
+        if (cid) {
+            const courseUsers = await courseClient.findUsersForCourse(cid);
+            setUsers(courseUsers);
+        }
+    };
+    useEffect(() => {
+        fetchUsers();
+    }, []);
     return (
         <div id="wd-people-table">
-            <PeopleDetails />
+            <PeopleDetails fetchUsers={fetchUsers} />
             <table className="table table-striped">
                 <thead>
                     <tr><th>Name</th><th>Login ID</th><th>Section</th><th>Role</th><th>Last Activity</th><th>Total Activity</th></tr>
                 </thead>
                 <tbody>
                     {users
+                        .filter((user: any) => user && user._id)
                         .map((user: any) => (
                             <tr key={user._id}>
                                 <td className="wd-full-name text-nowrap">
