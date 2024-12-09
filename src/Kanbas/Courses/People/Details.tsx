@@ -64,7 +64,10 @@ export default function PeopleDetails() {
                 {user && editing && (
                     <select onChange={(e) => setUser({ ...user, role: e.target.value })}
                         value={user.role}
-                        className="form-select float-start mb-2" id="wd-select-role">
+                        className="form-select float-start mb-2" id="wd-select-role"
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") { saveUser(); }
+                        }} >
                         <option value="STUDENT">Student</option>
                         <option value="ASSISTANT">Assistant</option>
                         <option value="ADMIN">Admin</option>
